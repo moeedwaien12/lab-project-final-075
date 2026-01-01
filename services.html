@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Service Records</title>
+
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            margin: 0;
+            padding-top: 80px;
+            background: #f4f7f6;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 70px;
+            background: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+        }
+
+        nav {
+            display: flex;
+            gap: 45px;
+        }
+
+        nav a {
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            text-decoration: none;
+        }
+
+        nav a.logout {
+            color: #e74c3c;
+        }
+
+        .container {
+            width: 90%;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .btn-add {
+            background: #27ae60;
+            color: white;
+            padding: 8px 15px;
+            font-size: 14px;
+            border-radius: 5px;
+            text-decoration: none;
+        }
+
+        #serviceSearch {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        th {
+            background: #f8f9fa;
+            color: #2c3e50;
+        }
+
+        .action-btn {
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+            text-decoration: none;
+            margin-right: 5px;
+        }
+
+        .view-btn { background: #3498db; }
+        .edit-btn { background: #f39c12; }
+        .delete-btn { background: #e74c3c; }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">VehicleMS ADMIN</div>
+    <nav>
+        <a href="dashboard.html">Overview</a>
+        <a href="customers.html">Customers</a>
+        <a href="vehicles.html">Vehicles</a>
+        <a href="maintenance.html">Maintenance</a>
+        <a href="parts.html">Parts</a>
+        <a href="services.html">Services</a>
+        <a href="reports.html">Reports</a>
+        <a href="index.html" class="logout">Logout</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>
+        Service History
+        <a href="add-service.html" class="btn-add">+ Add Service</a>
+    </h2>
+
+    <input type="text" id="serviceSearch" placeholder="Search service by vehicle no...">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Service ID</th>
+                <th>Vehicle No</th>
+                <th>Date</th>
+                <th>Description</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="serviceTableBody"></tbody>
+    </table>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+
+    const services = [
+        {
+            id: 'SRV-001',
+            vehicle: 'ABC-1234',
+            date: '2023-10-25',
+            description: 'Oil Change',
+            status: 'Completed',
+            notes: 'Oil and filter replaced.',
+            cost: '120.00'
+        },
+        {
+            id: 'SRV-002',
+            vehicle: 'XYZ-8800',
+            date: '2023-11-02',
+            description: 'Brake Service',
+            status: 'Completed',
+            notes: 'Brake pads inspected.',
+            cost: '210.00'
+        }
+    ];
+
+    const tableBody = document.getElementById('serviceTableBody');
+    const searchInput = document.getElementById('serviceSearch');
+
+    function renderServices(filter = '') {
+        tableBody.innerHTML = '';
+
+        services
+            .filter(s => s.vehicle.toLowerCase().includes(filter.toLowerCase()))
+            .forEach(service => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${service.id}</td>
+                    <td>${service.vehicle}</td>
+                    <td>${service.date}</td>
+                    <td>${service.description}</td>
+                    <td>${service.status}</td>
+                    <td>
+                        <a href="#" class="action-btn view-btn" data-id="${service.id}">
+                            View Detail
+                        </a>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            });
+    }
+
+    tableBody.addEventListener('click', e => {
+        if (e.target.classList.contains('view-btn')) {
+            e.preventDefault();
+            const id = e.target.dataset.id;
+            const service = services.find(s => s.id === id);
+            localStorage.setItem('service_details', JSON.stringify(service));
+            window.location.href = 'service-details.html';
+        }
+    });
+
+    searchInput.addEventListener('input', e => {
+        renderServices(e.target.value);
+    });
+
+    renderServices();
+});
+</script>
+
+</body>
+</html>

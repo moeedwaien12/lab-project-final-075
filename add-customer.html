@@ -1,0 +1,111 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Customer</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; background: #f4f7f6; display: flex; align-items: center; justify-content: center; height: 100vh; margin: 0; }
+        .form-card { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 450px; }
+        input, textarea { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .btn-save { width: 100%; background: #27ae60; color: white; padding: 12px; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        .btn-save:hover { background: #2ecc71; }
+        .back { display: block; text-align: center; margin-top: 15px; color: #7f8c8d; text-decoration: none; font-size: 14px; }
+        .error { color: red; font-size: 13px; margin-top: -5px; }
+        .success { color: green; font-size: 14px; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="form-card">
+        <h2 style="margin-top: 0;">New Customer Registration</h2>
+        <form id="customerForm">
+            <label>Full Name</label>
+            <input type="text" id="name" placeholder="e.g. Michael Knight" required>
+            <div id="nameError" class="error"></div>
+
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="email@example.com" required>
+            <div id="emailError" class="error"></div>
+
+            <label>Phone Number</label>
+            <input type="text" id="phone" placeholder="+1..." required>
+            <div id="phoneError" class="error"></div>
+
+            <label>Physical Address</label>
+            <textarea id="address" rows="2" placeholder="Street, City, Zip Code"></textarea>
+
+            <button type="submit" class="btn-save">Register Customer</button>
+            <div id="successMessage" class="success"></div>
+        </form>
+        <a href="customers.html" class="back">← Back to Customer List</a>
+    </div>
+
+
+    <!-- javascript -->
+    <script>
+        const form = document.getElementById('customerForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const phoneInput = document.getElementById('phone');
+        const addressInput = document.getElementById('address');
+
+        const nameError = document.getElementById('nameError');
+        const emailError = document.getElementById('emailError');
+        const phoneError = document.getElementById('phoneError');
+        const successMessage = document.getElementById('successMessage');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // prevent default form submission
+
+            // Reset errors
+            nameError.textContent = '';
+            emailError.textContent = '';
+            phoneError.textContent = '';
+            successMessage.textContent = '';
+
+            let valid = true;
+
+            // Name validation
+            if (nameInput.value.trim().length < 3) {
+                nameError.textContent = 'Name must be at least 3 characters.';
+                valid = false;
+            }
+
+            // Email validation
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!emailPattern.test(emailInput.value.trim())) {
+                emailError.textContent = 'Enter a valid email.';
+                valid = false;
+            }
+
+            // Phone validation
+            const phonePattern = /^\+?\d{7,15}$/;
+            if (!phonePattern.test(phoneInput.value.trim())) {
+                phoneError.textContent = 'Enter a valid phone number.';
+                valid = false;
+            }
+
+            if (valid) {
+                // Here you can save data to localStorage or send it to server
+                const customer = {
+                    name: nameInput.value.trim(),
+                    email: emailInput.value.trim(),
+                    phone: phoneInput.value.trim(),
+                    address: addressInput.value.trim()
+                };
+
+                console.log('Customer Registered:', customer);
+                successMessage.textContent = 'Customer registered successfully! Redirecting...';
+
+                // Optional: redirect after 2 seconds
+                setTimeout(() => {
+                    window.location.href = 'customers.html';
+                }, 2000);
+
+                // Clear form
+                form.reset();
+            }
+        });
+    </script>
+</body>
+</html>

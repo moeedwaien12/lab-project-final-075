@@ -1,0 +1,230 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="index.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VehicleMS - Home</title>
+
+    <style>
+        /* BASE STYLES */
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; background: #f4f7f6; scroll-behavior: smooth; }
+        a { text-decoration: none; }
+
+        /* NAVBAR */
+        header { position: fixed; top: 0; width: 100%; height: 70px; z-index: 1000; background: rgba(44, 62, 80, 0.9); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(255,255,255,0.1); display: flex; align-items: center; justify-content: space-between; padding: 0 50px; box-sizing: border-box; }
+        .logo { font-size: 24px; font-weight: bold; color: #fff; }
+        .nav-links a { color: white; margin: 0 15px; font-weight: 600; transition: 0.3s; }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a.active { color: white; } /* Home stays white */
+
+        /* LAYOUT */
+        .container { width: 85%; margin: auto; padding: 20px; }
+
+        /* HERO */
+        .hero { background: linear-gradient(45deg, #2c3e50, #3498db); color: white; padding: 100px 50px; text-align: center; border-radius: 15px; animation: fadeIn 1.2s ease; }
+
+        /* SECTIONS */
+        .section { margin-top: 50px; background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.05); }
+        h2 { color: #2c3e50; border-left: 5px solid #3498db; padding-left: 15px; margin-bottom: 30px; }
+
+        /* SERVICE CARDS */
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: #fff; border-radius: 12px; overflow: hidden; border: 1px solid #eee; transition: 0.3s; }
+        .card:hover { transform: translateY(-10px); box-shadow: 0 15px 30px rgba(0,0,0,0.1); }
+        .card img { width: 100%; height: 200px; object-fit: cover; }
+        .card .content { padding: 20px; }
+
+        /* CAROUSEL */
+        .carousel { display: flex; gap: 20px; overflow-x: auto; padding-bottom: 15px; }
+        .carousel img { width: 350px; height: 220px; border-radius: 12px; object-fit: cover; flex-shrink: 0; }
+
+        /* BOOKING FORM FIXED */
+        .booking-form { display: flex; flex-direction: column; gap: 15px; max-width: 900px; margin: auto; }
+        .booking-form .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px; }
+        .booking-form input, .booking-form select, .booking-form textarea { width: 100%; padding: 12px 15px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; font-size: 15px; transition: 0.3s; }
+        .booking-form input:focus, .booking-form select:focus, .booking-form textarea:focus { border-color: #3498db; outline: none; }
+        .booking-form button { background: #3498db; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .booking-form button:hover { background: #217dbb; }
+
+        /* CONTACT SECTION */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+        .contact-info div { margin-bottom: 20px; }
+        .contact-info h4 { margin: 0; color: #3498db; }
+        .contact-form { display: flex; flex-direction: column; gap: 15px; }
+        .contact-form input, .contact-form textarea { padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-family: inherit; }
+        .contact-form button { background: #27ae60; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .contact-form button:hover { background: #219150; }
+
+        /* FOOTER */
+        footer { background: #1a252f; color: #bdc3c7; margin-top: 80px; padding: 50px 20px; text-align: center; }
+        .footer-top { display: flex; flex-wrap: wrap; justify-content: space-around; max-width: 1100px; margin: auto; text-align: left; }
+        .footer-top h4 { color: white; margin-bottom: 15px; }
+
+        /* ANIMATION */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* RESPONSIVE */
+        @media(max-width: 768px){ 
+            .contact-grid { grid-template-columns: 1fr; } 
+            .hero { padding: 80px 20px; } 
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">VehicleMS</div>
+    <nav class="nav-links">
+        <a href="index.html" class="active">Home</a>
+        <a href="#services">Services</a>
+        <a href="#booking">Book Now</a>
+        <a href="#contact">Contact</a>
+        <a href="#about">About</a>
+        <a href="login.html" style="background: #3498db; color: white; padding: 8px 18px; border-radius: 5px;">Login</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <!-- HERO -->
+    <section class="hero">
+        <h1>Expert Vehicle Management & Services</h1>
+        <p>Track your fleet, manage services, and monitor vehicle health efficiently.</p>
+    </section>
+
+    <!-- SERVICES -->
+    <section class="section" id="services">
+        <h2>Our Premium Services</h2>
+        <div class="cards">
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1486006920555-c77dcf18193c?q=80&w=1000">
+                <div class="content">
+                    <h3>Engine Repair</h3>
+                    <p>Advanced diagnostics and professional engine repairs to keep you moving.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?q=80&w=1000">
+                <div class="content">
+                    <h3>Oil Change</h3>
+                    <p>Premium synthetic oil services to extend your engine's lifecycle.</p>
+                </div>
+            </div>
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1580910051074-7c7f6d7c6b7d?q=80&w=1000">
+                <div class="content">
+                    <h3>Tire Maintenance</h3>
+                    <p>Correct alignment and pressure for maximum safety and efficiency.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CAROUSEL -->
+    <section class="section">
+        <h2>Service Gallery</h2>
+        <div class="carousel">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?q=80&w=500">
+            <img src="https://images.unsplash.com/photo-1515923161810-4f48c2c41c03?q=80&w=500">
+            <img src="https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?q=80&w=500">
+            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?q=80&w=500">
+        </div>
+    </section>
+
+    <!-- BOOKING -->
+    <section class="section" id="booking">
+        <h2>Book a Service</h2>
+        <form class="booking-form">
+            <div class="form-grid">
+                <input type="text" placeholder="Your Name" required>
+                <input type="email" placeholder="Email" required>
+                <input type="tel" placeholder="Phone Number" required>
+                <select required>
+                    <option value="">Select Service</option>
+                    <option>Engine Repair</option>
+                    <option>Oil Change</option>
+                    <option>Tire Maintenance</option>
+                </select>
+            </div>
+            <textarea placeholder="Additional Notes regarding your vehicle..." rows="4"></textarea>
+            <button type="submit">Confirm Appointment</button>
+        </form>
+    </section>
+
+    <!-- CONTACT -->
+    <section class="section" id="contact">
+        <h2>Contact Us</h2>
+        <div class="contact-grid">
+            <div class="contact-info">
+                <h3>Get In Touch</h3>
+                <p>Have a question? Our support team is available 24/7 to assist you with your vehicle needs.</p>
+                <div>
+                    <h4>📍 Address</h4>
+                    <p>Phase 2, Business District, Karachi, Pakistan</p>
+                </div>
+                <div>
+                    <h4>📞 Phone</h4>
+                    <p>+92 300 1234567</p>
+                </div>
+                <div>
+                    <h4>📧 Email</h4>
+                    <p>support@vehiclems.com</p>
+                </div>
+            </div>
+            <div class="contact-form">
+                <input type="text" placeholder="Subject" required>
+                <textarea placeholder="How can we help you?" rows="6" required></textarea>
+                <button type="submit">Send Message</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT -->
+    <section class="section" id="about">
+        <h2>About VehicleMS</h2>
+        <p>VehicleMS is your ultimate solution for managing your vehicles and fleet efficiently. We specialize in tracking, maintenance, and service scheduling to ensure your vehicles are always in top condition. Our team of professionals uses the latest technology to provide seamless support for both individual owners and fleet managers.</p>
+    </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-top">
+        <div>
+            <h4>About VehicleMS</h4>
+            <p>We provide world-class vehicle tracking and maintenance management for individual owners and fleets.</p>
+        </div>
+        <div>
+            <h4>Quick Links</h4>
+            <p><a href="#services" style="color: #bdc3c7;">Services</a><br>
+               <a href="#booking" style="color: #bdc3c7;">Book Now</a><br>
+               <a href="#about" style="color: #bdc3c7;">About Us</a></p>
+        </div>
+        <div>
+            <h4>Follow Us</h4>
+            <div style="font-size: 24px;">🌐 📘 📷 🐦</div>
+        </div>
+    </div>
+    <hr style="opacity: 0.1; margin: 30px 0;">
+    <p>© 2026 VehicleMS. All Rights Reserved.</p>
+</footer>
+
+<!-- Javascript  -->
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const bookingForm = document.querySelector('.booking-form');
+    bookingForm.addEventListener('submit', (e) => {
+        e.preventDefault();
+        alert('✅ Your booking has been submitted successfully!');
+        bookingForm.reset();
+    });
+});
+</script>
+
+</body>
+</html>

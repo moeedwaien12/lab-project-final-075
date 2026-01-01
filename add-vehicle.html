@@ -1,0 +1,81 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Vehicle</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; padding: 50px; }
+        .form-container { max-width: 500px; margin: auto; background: white; padding: 30px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        input, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        .btn-save { background: #27ae60; color: white; border: none; padding: 10px 20px; width: 100%; cursor: pointer; border-radius: 5px; }
+        .success-msg { color: #27ae60; font-weight: bold; margin-top: 15px; display: none; }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h2>Register New Vehicle</h2>
+        <form id="vehicleForm">
+            <div class="field-group">
+                <label>Vehicle Number</label>
+                <input type="text" name="v_num" placeholder="e.g. ABC-1234" required>
+            </div>
+            <div class="field-group">
+                <label>Vehicle Model</label>
+                <input type="text" name="v_model" placeholder="e.g. Toyota Corolla" required>
+            </div>
+            <div class="field-group">
+                <label>Owner Name</label>
+                <input type="text" name="v_owner" placeholder="e.g. John Doe" required>
+            </div>
+            <div class="field-group">
+                <label>Status</label>
+                <select name="v_status">
+                    <option value="Active">Active</option>
+                    <option value="In Service">In Service</option>
+                    <option value="Pending">Pending</option>
+                </select>
+            </div>
+            <button type="submit" class="btn-save">Save Vehicle</button>
+        </form>
+        <div class="success-msg" id="successMsg">Vehicle successfully registered!</div>
+    </div>
+
+    <!--  JavaScript -->
+    <script>
+        // Grab the form element
+        const vehicleForm = document.getElementById('vehicleForm');
+        const successMsg = document.getElementById('successMsg');
+
+        vehicleForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent actual form submission
+
+            // Grab form values
+            const vNum = vehicleForm.v_num.value.trim();
+            const vModel = vehicleForm.v_model.value.trim();
+            const vOwner = vehicleForm.v_owner.value.trim();
+            const vStatus = vehicleForm.v_status.value;
+
+            // Basic validation
+            if (!vNum || !vModel || !vOwner) {
+                alert("Please fill all required fields.");
+                return;
+            }
+
+            // Here you can send the data to backend via fetch/AJAX
+            // For now, just display success message
+            successMsg.style.display = 'block';
+
+            // Optional: reset form after submission
+            vehicleForm.reset();
+
+            // Optional: hide message after 3 seconds
+            setTimeout(() => {
+                successMsg.style.display = 'none';
+            }, 3000);
+
+            console.log({ vNum, vModel, vOwner, vStatus }); // Log data for testing
+        });
+    </script>
+</body>
+</html>

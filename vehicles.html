@@ -1,0 +1,233 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Vehicle Management</title>
+<style>
+    /* Reset & Base */
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding-top: 80px;
+        background: #f4f7f6;
+    }
+
+    /* Header */
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 70px;
+    background: #2c3e50;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 60px;
+    box-sizing: border-box;
+    z-index: 1000;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.logo {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    margin: 0;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 45px; /* Matches the exact spacing in the screenshot */
+}
+
+nav a {
+    text-decoration: none;
+    color: white;
+    font-size: 16px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+nav a.logout {
+    color: #e74c3c;
+}
+    /* Container */
+    .container {
+        width: 90%;
+        margin: auto;
+        background: white;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .btn-add {
+        background: #27ae60;
+        color: white;
+        padding: 8px 15px;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    input[type="text"] {
+        padding: 10px;
+        width: 300px;
+        margin: 15px 0;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+    th, td {
+        padding: 12px 15px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        background: #f8f9fa;
+        color: #2c3e50;
+    }
+
+    .action-btn {
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 12px;
+        color: white;
+        margin-right: 5px;
+        border: none;
+        cursor: pointer;
+    }
+
+    .view-btn { background: #3498db; }
+    .edit-btn { background: #f39c12; }
+    .delete-btn { background: #e74c3c; }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo">VehicleMS ADMIN</div>
+    <nav>
+        <a href="dashboard.html">Overview</a>
+        <a href="customers.html">Customers</a>
+        <a href="vehicles.html">Vehicles</a>
+        <a href="maintenance.html">Maintenance</a>
+        <a href="parts.html">Parts</a>
+        <a href="services.html">Services</a>
+        <a href="reports.html">Reports</a>
+        <a href="index.html" class="logout">Logout</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>
+        Vehicle Management
+        <a href="add-vehicle.html" class="btn-add">+ Add Vehicle</a>
+    </h2>
+
+    <input type="text" id="searchInput" placeholder="Search vehicle by number...">
+
+    <table>
+        <thead>
+            <tr>
+                <th>Vehicle No</th>
+                <th>Model</th>
+                <th>Owner</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="vehicleTableBody">
+            <!-- Vehicles will be rendered dynamically -->
+        </tbody>
+    </table>
+</div>
+
+ <!--  JavaScript -->
+   
+<script>
+    // Sample vehicle data
+    let vehicles = [
+        { number: 'ABC-123', model: 'Toyota', owner: 'John Doe', status: 'Active' },
+        { number: 'XYZ-456', model: 'Honda', owner: 'Jane Smith', status: 'Inactive' },
+        { number: 'LMN-789', model: 'Suzuki', owner: 'Alice Brown', status: 'Active' }
+    ];
+
+    const tableBody = document.getElementById('vehicleTableBody');
+    const searchInput = document.getElementById('searchInput');
+
+    // Render vehicles function
+    function renderVehicles(filter='') {
+        tableBody.innerHTML = '';
+        vehicles.forEach((v, index) => {
+            if (v.number.toLowerCase().includes(filter.toLowerCase())) {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${v.number}</td>
+                    <td>${v.model}</td>
+                    <td>${v.owner}</td>
+                    <td>${v.status}</td>
+                    <td>
+                        <button class="action-btn view-btn" onclick="viewVehicle(${index})">View</button>
+                        <button class="action-btn edit-btn" onclick="editVehicle(${index})">Edit</button>
+                        <button class="action-btn delete-btn" onclick="deleteVehicle(${index})">Delete</button>
+                    </td>
+                `;
+                tableBody.appendChild(row);
+            }
+        });
+    }
+
+    // View vehicle
+    function viewVehicle(index) {
+        const v = vehicles[index];
+        alert(`Vehicle Details:\nNumber: ${v.number}\nModel: ${v.model}\nOwner: ${v.owner}\nStatus: ${v.status}`);
+    }
+
+    // Edit vehicle
+    function editVehicle(index) {
+        const v = vehicles[index];
+        const newStatus = prompt(`Edit status for ${v.number}:`, v.status);
+        if (newStatus !== null) {
+            vehicles[index].status = newStatus;
+            renderVehicles(searchInput.value);
+        }
+    }
+
+    // Delete vehicle
+    function deleteVehicle(index) {
+        if (confirm(`Are you sure you want to delete vehicle ${vehicles[index].number}?`)) {
+            vehicles.splice(index, 1);
+            renderVehicles(searchInput.value);
+        }
+    }
+
+    // Search functionality
+    searchInput.addEventListener('input', () => {
+        renderVehicles(searchInput.value);
+    });
+
+    // Initial render
+    renderVehicles();
+</script>
+
+</body>
+</html>
+

@@ -1,0 +1,83 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; background: #2c3e50; }
+        .login-card { background: white; padding: 40px; border-radius: 10px; width: 350px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2); }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        .btn { width: 100%; background: #3498db; color: white; padding: 10px; border: none; border-radius: 5px; cursor: pointer; display: block; text-decoration: none; margin-top: 10px; transition: background 0.3s; }
+        .btn:hover { background: #2980b9; }
+        .error-msg { color: #e74c3c; font-size: 12px; margin-top: 5px; display: none; }
+        .forgot-password { display: block; font-size: 12px; color: #3498db; text-decoration: none; margin-top: 5px; }
+        .forgot-password:hover { text-decoration: underline; }
+    </style>
+    <meta charset="UTF-8">
+    <title>VehicleMS - Login</title>
+</head>
+<body>
+    <div class="login-card">
+        <h2>Admin Login</h2>
+        <form id="loginForm" action="dashboard.html">
+            <input type="email" id="email" placeholder="Email Address" required>
+            <div class="error-msg" id="emailError">Please enter a valid email.</div>
+
+            <input type="password" id="password" placeholder="Password" required>
+            <div class="error-msg" id="passwordError">Password must be at least 6 characters.</div>
+
+            <!-- Forgot Password Link -->
+            <a href="forgot-password.html" class="forgot-password">Forgot Password?</a>
+
+            <button type="submit" class="btn">Login</button>
+        </form>
+        <p><a href="index.html" style="font-size: 12px; color: #7f8c8d;">Back to Home</a></p>
+    </div>
+
+   <!-- JavaScript -->
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const emailInput = document.getElementById('email');
+        const passwordInput = document.getElementById('password');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+
+        loginForm.addEventListener('submit', function(e) {
+            let valid = true;
+
+            // Email validation
+            const emailPattern = /^[^ ]+@[^ ]+\.[a-z]{2,3}$/;
+            if (!emailPattern.test(emailInput.value)) {
+                emailError.style.display = 'block';
+                valid = false;
+            } else {
+                emailError.style.display = 'none';
+            }
+
+            // Password validation
+            if (passwordInput.value.length < 6) {
+                passwordError.style.display = 'block';
+                valid = false;
+            } else {
+                passwordError.style.display = 'none';
+            }
+
+            if (!valid) {
+                e.preventDefault(); // Prevent form submission if validation fails
+            } else {
+                // Optional: fake alert for login success before redirect
+                alert('Login successful! Redirecting to dashboard...');
+            }
+        });
+
+        // Enter key triggers login
+        passwordInput.addEventListener('keyup', function(e) {
+            if (e.key === 'Enter') {
+                loginForm.requestSubmit();
+            }
+        });
+    </script>
+    
+</body>
+</html>

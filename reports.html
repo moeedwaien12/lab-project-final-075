@@ -1,0 +1,144 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Reports</title>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; margin: 0; padding-top: 80px; background: #f4f7f6; }
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 70px;
+            background: #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 60px;
+            box-sizing: border-box;
+            z-index: 1000;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: white;
+            margin: 0;
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 45px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        nav a.logout {
+            color: #e74c3c;
+        }
+
+        .container { width: 80%; margin: auto; background: white; padding: 30px; }
+        .filter-bar { background: #eee; padding: 15px; margin-bottom: 20px; border-radius: 5px; }
+        .chart-mock { height: 200px; background: #f9f9f9; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center; color: #999; }
+        table, th, td { border: 1px solid #ccc; padding: 8px; text-align: center; }
+        th { background: #f4f4f4; }
+        button { cursor: pointer; }
+    </style>
+</head>
+<body>
+    
+<header>
+    <div class="logo">VehicleMS ADMIN</div>
+    <nav>
+        <a href="dashboard.html">Overview</a>
+        <a href="customers.html">Customers</a>
+        <a href="vehicles.html">Vehicles</a>
+        <a href="maintenance.html">Maintenance</a>
+        <a href="services.html">Services</a>
+        <a href="reports.html">Reports</a>
+        <a href="index.html" class="logout">Logout</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h1>Generate Reports</h1>
+    <div class="filter-bar">
+        Date From: <input type="date" id="fromDate"> 
+        To: <input type="date" id="toDate"> 
+        Vehicle: 
+        <select id="vehicleSelect">
+            <option>All</option>
+            <option>Car A</option>
+            <option>Car B</option>
+        </select>
+        <button id="filterBtn">Filter</button>
+        <button id="downloadBtn" style="background: #e74c3c; color: white; border: none; padding: 5px 10px;">Download PDF</button>
+    </div>
+
+    <div class="chart-mock">
+        [ Monthly Service Cost Chart Visualization ]
+    </div>
+
+    <table id="reportTable" style="width: 100%; border-collapse: collapse; margin-top: 20px;">
+        <tr style="background: #f4f4f4;"><th>Month</th><th>Services</th><th>Total Revenue</th></tr>
+        <tr data-vehicle="Car A"><td>October</td><td>45</td><td>$4,500</td></tr>
+        <tr data-vehicle="Car B"><td>September</td><td>38</td><td>$3,800</td></tr>
+        <tr data-vehicle="Car A"><td>August</td><td>30</td><td>$3,000</td></tr>
+    </table>
+</div>
+
+
+    <!--  JavaScript -->
+
+<script>
+    const filterBtn = document.getElementById('filterBtn');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const fromDate = document.getElementById('fromDate');
+    const toDate = document.getElementById('toDate');
+    const vehicleSelect = document.getElementById('vehicleSelect');
+    const table = document.getElementById('reportTable');
+
+    filterBtn.addEventListener('click', () => {
+        const from = new Date(fromDate.value);
+        const to = new Date(toDate.value);
+        const vehicle = vehicleSelect.value;
+
+        for (let i = 1; i < table.rows.length; i++) {
+            const row = table.rows[i];
+            const month = row.cells[0].innerText; // Month text
+            const vehicleType = row.getAttribute('data-vehicle');
+
+            let show = true;
+
+            // Filter by vehicle
+            if (vehicle !== 'All' && vehicle !== vehicleType) show = false;
+
+            // Filter by date (mock: map month to a numeric value)
+            const monthMap = { 'January':0, 'February':1, 'March':2, 'April':3, 'May':4, 'June':5, 'July':6, 'August':7, 'September':8, 'October':9, 'November':10, 'December':11 };
+            const rowDate = new Date(new Date().getFullYear(), monthMap[month], 1);
+
+            if (fromDate.value && rowDate < from) show = false;
+            if (toDate.value && rowDate > to) show = false;
+
+            row.style.display = show ? '' : 'none';
+        }
+    });
+
+    downloadBtn.addEventListener('click', () => {
+        alert('PDF Download functionality not implemented yet.');
+    });
+</script>
+
+</body>
+</html>

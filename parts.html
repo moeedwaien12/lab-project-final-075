@@ -1,0 +1,221 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Parts Stock & Pricing</title>
+
+<style>
+    /* Base Styles */
+    body {
+        font-family: 'Segoe UI', sans-serif;
+        margin: 0;
+        padding-top: 80px;
+        background: #ffffff; /* WHITE BACKGROUND */
+    }
+
+    /* NAVBAR */
+    header {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 70px;
+        background: #2c3e50;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 60px;
+        box-sizing: border-box;
+        z-index: 1000;
+    }
+
+    .logo {
+        font-size: 28px;
+        font-weight: bold;
+        color: white;
+        margin: 0;
+    }
+
+    nav {
+        display: flex;
+        gap: 45px;
+    }
+
+    nav a {
+        color: white;
+        font-size: 16px;
+        font-weight: 500;
+        text-decoration: none;
+        white-space: nowrap;
+    }
+
+    nav a.logout {
+        color: #e74c3c;
+    }
+
+    /* Container */
+    .container {
+        width: 90%;
+        margin: auto;
+        background: white;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+
+    h2 {
+        margin-bottom: 15px;
+        color: #2c3e50;
+    }
+
+    /* Filters */
+    .filters {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    select, input[type="text"] {
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-size: 14px;
+        outline: none;
+    }
+
+    /* Table */
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+    }
+
+    th, td {
+        padding: 12px 20px;
+        text-align: left;
+        border-bottom: 1px solid #eee;
+    }
+
+    th {
+        background: #f8f9fa;
+        color: #2c3e50;
+    }
+
+    .in-stock {
+        color: #27ae60;
+        font-weight: bold;
+    }
+
+    .out-stock {
+        color: #e74c3c;
+        font-weight: bold;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .filters {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        header {
+            padding: 0 20px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="logo">VehicleMS ADMIN</div>
+    <nav>
+        <a href="dashboard.html">Overview</a>
+        <a href="customers.html">Customers</a>
+        <a href="vehicles.html">Vehicles</a>
+        <a href="maintenance.html">Maintenance</a>
+        <a href="parts.html">Parts</a>
+        <a href="services.html">Services</a>
+        <a href="reports.html">Reports</a>
+        <a href="index.html" class="logout">Logout</a>
+    </nav>
+</header>
+
+<div class="container">
+    <h2>Parts Stock & Pricing</h2>
+
+    <div class="filters">
+        <label>Filter by Brand:</label>
+        <select id="brandFilter">
+            <option value="All">All</option>
+            <option value="Toyota">Toyota</option>
+            <option value="Honda">Honda</option>
+            <option value="Suzuki">Suzuki</option>
+        </select>
+
+        <label>Search Part:</label>
+        <input type="text" id="searchInput" placeholder="Search by part name...">
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Part Name</th>
+                <th>Brand</th>
+                <th>Stock</th>
+                <th>Price ($)</th>
+            </tr>
+        </thead>
+        <tbody id="partsTableBody"></tbody>
+    </table>
+</div>
+
+
+    <!--  JavaScript -->
+<script>
+    const parts = [
+        { name: 'Oil Filter', brand: 'Toyota', stock: 25, price: 15 },
+        { name: 'Brake Pads', brand: 'Honda', stock: 0, price: 40 },
+        { name: 'Air Filter', brand: 'Suzuki', stock: 10, price: 12 },
+        { name: 'Battery', brand: 'Toyota', stock: 5, price: 80 },
+        { name: 'Spark Plug', brand: 'Honda', stock: 12, price: 8 },
+        { name: 'Brake Fluid', brand: 'Suzuki', stock: 0, price: 6 }
+    ];
+
+    const tableBody = document.getElementById('partsTableBody');
+    const brandFilter = document.getElementById('brandFilter');
+    const searchInput = document.getElementById('searchInput');
+
+    function renderParts() {
+        const brand = brandFilter.value;
+        const search = searchInput.value.toLowerCase();
+        tableBody.innerHTML = '';
+
+        parts.forEach(part => {
+            if ((brand === 'All' || part.brand === brand) &&
+                part.name.toLowerCase().includes(search)) {
+
+                tableBody.innerHTML += `
+                    <tr>
+                        <td>${part.name}</td>
+                        <td>${part.brand}</td>
+                        <td class="${part.stock ? 'in-stock' : 'out-stock'}">
+                            ${part.stock ? 'In Stock' : 'Out of Stock'}
+                        </td>
+                        <td>${part.price}</td>
+                    </tr>
+                `;
+            }
+        });
+    }
+
+    brandFilter.addEventListener('change', renderParts);
+    searchInput.addEventListener('input', renderParts);
+    renderParts();
+</script>
+
+</body>
+</html>
